@@ -1,0 +1,1 @@
+Remove-AzVMCustomScriptExtension -Name 'ADServer' -ResourceGroupName testrg -VMName 'testserver' -force
