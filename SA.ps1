@@ -1,3 +1,5 @@
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/NetraLBhushal/Scripts/master/Service_Accounts.csv" -OutFile "C:\Users\Azureuser\Downloads\Service_Account.csv"
+
 function New-ServiceAccount {
     Param
     (
@@ -19,7 +21,8 @@ function New-ServiceAccount {
     Write-Output "$samaccountname service account created in $destou"
 }
 
-$CSVFILEPATH = "https://raw.githubusercontent.com/NetraLBhushal/Scripts/master/Service_Accounts.csv"
+
+$CSVFILEPATH = "C:\Users\Azureuser\Downloads\Service_Account.csv"
 $DEST_OU="OU=Service Accounts,DC=azure,DC=energy,DC=internal"
 
 if ((Test-path ($CSVFILEPATH)) -eq $false){
@@ -31,6 +34,3 @@ Foreach ($sa in $(import-csv -Path $CSVFILEPATH)){
 }
 
 get-aduser -searchbase "OU=Service Accounts,DC=azure,DC=energy,DC=internal" -filter * | select-object samaccountname
-
-
-
