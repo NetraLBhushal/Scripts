@@ -19,7 +19,7 @@ function New-ServiceAccount {
     Write-Output "$samaccountname service account created in $destou"
 }
 
-$CSVFILEPATH = "https://github.com/NetraLBhushal/DSC/raw/master/CustomScripts.zip/service_accounts.csv"
+$CSVFILEPATH = "https://raw.githubusercontent.com/NetraLBhushal/Scripts/master/Service_Accounts.csv"
 $DEST_OU="OU=Service Accounts,DC=azure,DC=energy,DC=internal"
 
 if ((Test-path ($CSVFILEPATH)) -eq $false){
