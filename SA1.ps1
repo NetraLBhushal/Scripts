@@ -1,6 +1,9 @@
 #Invoke-WebRequest -Uri "https://raw.githubusercontent.com/NetraLBhushal/Scripts/master/Service_Accounts.csv" -OutFile "$pwd\Service_Account.csv"
 
-param ($SAtestuser, $SAtestpass)
+Param ($SAtestuser, $SAtestpass, $description)
+$SAtestuser = $SAtestuser.Split(",")
+$SAtestpass = $SAtestpass.Split(",")
+$description = $description.Split(",")
 
 function New-ServiceAccount {
     Param
@@ -31,8 +34,8 @@ $DEST_OU="OU=Service Accounts,DC=azure,DC=energy,DC=internal"
 #     throw "CSV FILE $CSVFILEPATH not found!"
 # }
 
-for($i = 0; $i -lt $SAtestuser.length; $i++){ 
-    New-ServiceAccount -samaccountname $SAtestuser[$i] -description $sa.description -password $SAtestpass[$i] -destou $DEST_OU
+for($i = 0; $i -lt $SAtestuser.length; $i++) { 
+    New-ServiceAccount -samaccountname $SAtestuser[$i] -description $description[$i] -password $SAtestpass[$i] -destou $DEST_OU
  }
 
 #Foreach ($sa in $(import-csv -Path $CSVFILEPATH)){
