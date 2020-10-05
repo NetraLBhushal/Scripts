@@ -1,5 +1,3 @@
-#Invoke-WebRequest -Uri "https://raw.githubusercontent.com/NetraLBhushal/Scripts/master/Service_Accounts.csv" -OutFile "$pwd\Service_Account.csv"
-
 Param ($SAtestuser, $SAtestpass, $description)
 $SAtestuser = $SAtestuser.Split(",")
 $SAtestpass = $SAtestpass.Split(",")
@@ -43,3 +41,4 @@ for($i = 0; $i -lt $SAtestuser.length; $i++) {
 #}
 
 get-aduser -searchbase "OU=Service Accounts,DC=azure,DC=energy,DC=internal" -filter * | select-object samaccountname
+#Invoke-WebRequest -Uri "https://raw.githubusercontent.com/NetraLBhushal/Scripts/master/Service_Accounts.csv" -OutFile "$pwd\Service_Account.csv"
