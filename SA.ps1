@@ -1,4 +1,7 @@
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/NetraLBhushal/Scripts/master/Service_Accounts.csv" -OutFile "C:\Users\Azureuser\Downloads\Service_Account.csv"
+Param ($SAtestuser, $SAtestpass, $description)
+$SAtestuser = $SAtestuser.Split(",")
+$SAtestpass = $SAtestpass.Split(" ")
+$description = $description.Split(",")
 
 function New-ServiceAccount {
     Param
@@ -17,20 +20,24 @@ function New-ServiceAccount {
          $destou
     )
     $psw = convertto-securestring "$password" -asplaintext -force
+    $destou="OU=$($ua_ouname[$i]),$oupath"
+
     New-ADUser -Path $destou -Name "$samaccountname"  -AccountPassword $psw -Enabled $true -AllowReversiblePasswordEncryption $false -CannotChangePassword $true -PasswordNeverExpires $true
     Write-Output "$samaccountname service account created in $destou"
 }
 
+for($i = 0; $i -lt $SAtestuser.length; $i++) { 
 
-$CSVFILEPATH = "C:\Users\Azureuser\Downloads\Service_Account.csv"
-$DEST_OU="OU=Service Accounts,DC=azure,DC=energy,DC=internal"
+    if (Get-ADUser -F {SamAccountName -eq $SamAccountName})
+       {
+               #If user does exist, output a warning message
+               Write-Warning "A user account $samaccountname already exist in Active Directory."
+       }
+       else
+       {
+              #If a user does not exist then create a new user account
 
-if ((Test-path ($CSVFILEPATH)) -eq $false){
-    throw "CSV FILE $CSVFILEPATH not found!"
+    New-ServiceAccount -samaccountname $SAtestuser[$i] -description $description[$i] -password $SAtestpass[$i] -destou $DEST_OU
+    
+    }
 }
-
-Foreach ($sa in $(import-csv -Path $CSVFILEPATH)){
-    New-ServiceAccount -samaccountname $sa.samaccountname -description $sa.description -password $sa.password -destou $DEST_OU
-}
-
-get-aduser -searchbase "OU=Service Accounts,DC=azure,DC=energy,DC=internal" -filter * | select-object samaccountname
