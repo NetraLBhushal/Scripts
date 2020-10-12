@@ -28,7 +28,7 @@ function New-ServiceAccount {
 
 for($i = 0; $i -lt $SAtestuser.length; $i++) { 
 
-    if (Get-ADUser -F {SamAccountName -eq $SamAccountName})
+    if (Get-ADUser -F {Name -eq $SamAccountName})
        {
                #If user does exist, output a warning message
                Write-Warning "A user account $samaccountname already exist in Active Directory."
